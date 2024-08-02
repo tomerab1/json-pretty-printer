@@ -6,81 +6,33 @@ import com.tomerab.parser.JsonParser;
 import com.tomerab.visitor.JsonPrettyPrintVisitor;
 import com.tomerab.visitor.JsonVisitor;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
+
 public class Main {
   public static void main(String[] args) {
+    try {
+      BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+      StringBuilder inputBuilder = new StringBuilder();
+      String line;
 
-    String str = """
-                         {
-          "name": "John Doe",
-          "age": 30,
-          "address": {
-            "street": "1234 Elm Street",
-            "city": "Springfield",
-            "state": "IL",
-            "postalCode": "62701"
-          },
-          "phoneNumbers": [
-            {
-              "type": "home",
-              "number": "555-555-5555"
-            },
-            {
-              "type": "work",
-              "number": "555-555-5556"
-            }
-          ],
-          "emails": [
-            "john.doe@example.com",
-            "john.doe@workplace.com"
-          ],
-          "spouse": {
-            "name": "Jane Doe",
-            "age": 28,
-            "address": {
-              "street": "5678 Oak Avenue",
-              "city": "Springfield",
-              "state": "IL",
-              "postalCode": "62702"
-            }
-          },
-          "children": [
-            {
-              "name": "Alice Doe",
-              "age": 5
-            },
-            {
-              "name": "Bob Doe",
-              "age": 3
-            }
-          ],
-          "employment": {
-            "company": "Tech Corp",
-            "position": "Software Engineer",
-            "yearsEmployed": 5,
-            "projects": [
-              {
-                "name": "Project A",
-                "status": "completed"
-              },
-              {
-                "name": "Project B",
-                "status": "in-progress"
-              }
-            ]
-          },
-          "hobbies": ["reading", "traveling", "swimming"],
-          "isActive": true
-        }
+      while ((line = reader.readLine()) != null) {
+        inputBuilder.append(line).append("\n");
+      }
 
-                        """;
+      String jsonInput = inputBuilder.toString();
 
-    JsonLexer jsonLexer = new JsonLexer(str);
-    JsonParser jsonParser = new JsonParser(jsonLexer);
-    JsonObject obj = jsonParser.parse();
+      JsonLexer jsonLexer = new JsonLexer(jsonInput);
+      JsonParser jsonParser = new JsonParser(jsonLexer);
+      JsonObject obj = jsonParser.parse();
 
-    JsonVisitor visitor = new JsonPrettyPrintVisitor();
+      JsonVisitor visitor = new JsonPrettyPrintVisitor(4);
+      obj.accept(visitor);
 
-    obj.accept(visitor);
-    System.out.println();
+      System.out.println();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 }

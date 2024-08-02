@@ -13,7 +13,18 @@ import com.tomerab.ast.JsonString;
 
 public class JsonPrettyPrintVisitor implements JsonVisitor {
     private static int indentLevel = 0;
-    private static final String INDENT = "  "; // Two spaces for each indent level
+    private static String INDENT = " ";
+
+    // ANSI escape codes for colors
+    private static final String RESET = "\033[0m";
+    private static final String GREEN = "\033[0;32m";
+    private static final String CYAN = "\033[0;36m";
+    private static final String YELLOW = "\033[0;33m";
+    private static final String MAGENTA = "\033[0;35m";
+
+    public JsonPrettyPrintVisitor(int spacingLvl) {
+        INDENT = INDENT.repeat(spacingLvl);
+    }
 
     @Override
     public void visit(JsonMap map) {
@@ -27,7 +38,7 @@ public class JsonPrettyPrintVisitor implements JsonVisitor {
                 System.out.print(",\n");
             }
             printIndent();
-            System.out.print("\"" + entry.getKey() + "\": ");
+            System.out.print(CYAN + "\"" + entry.getKey() + "\":" + RESET + " ");
             entry.getValue().accept(this);
             first = false;
         }
@@ -61,24 +72,24 @@ public class JsonPrettyPrintVisitor implements JsonVisitor {
     @Override
     public void visit(JsonString string) {
         String str = string.getValue();
-        System.out.print("\"" + str + "\"");
+        System.out.print(GREEN + "\"" + str + "\"" + RESET);
     }
 
     @Override
     public void visit(JsonBoolean bool) {
         boolean boolVal = bool.getValue();
-        System.out.print(boolVal);
+        System.out.print(YELLOW + boolVal + RESET);
     }
 
     @Override
     public void visit(JsonNumber number) {
         double num = number.getValue();
-        System.out.print(num);
+        System.out.print(MAGENTA + num + RESET);
     }
 
     @Override
     public void visit(JsonNull jsonNull) {
-        System.out.print("null");
+        System.out.print(YELLOW + "null" + RESET);
     }
 
     private void printIndent() {

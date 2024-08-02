@@ -2,16 +2,53 @@ package com.tomerab.lexer;
 
 public class JsonLexer {
     private String jsonStr;
+    private Cursor cursor;
+
+    public static class Cursor {
+        private int col = 1, row = 1;
+
+        public void incCol() {
+            col++;
+        }
+
+        public void incCol(int inc) {
+            col += inc;
+        }
+
+        public void incRow() {
+            row++;
+        }
+
+        public void resetCol() {
+            col = 1;
+        }
+
+        @Override
+        public String toString() {
+            return "line " + row + ", column " + col;
+        }
+    }
 
     public JsonLexer(String jsonStr) {
         this.jsonStr = jsonStr;
+        cursor = new Cursor();
     }
 
     public boolean hasNext() {
         return !jsonStr.isEmpty();
     }
 
+    public Cursor getCursor() {
+        return cursor;
+    }
+
     public JsonToken next() {
+        cursor.incCol(findFirstNonWhitespaceIndex(jsonStr));
+        if (jsonStr.charAt(0) == '\n') {
+            cursor.incRow();
+            cursor.resetCol();
+        }
+
         // Consume whitespace
         jsonStr = jsonStr.replaceAll("(^[\\r\\n\\s]+|[\\r\\n\\s]+$)", "");
 
@@ -20,33 +57,34 @@ public class JsonLexer {
         }
 
         char currentChar = jsonStr.charAt(0);
+
         switch (currentChar) {
             case '{' -> {
-                jsonStr = jsonStr.substring(1);
+                jsonStr = advance();
                 return new JsonToken(JsonToken.JsonType.OBJ_OPEN);
             }
             case '}' -> {
-                jsonStr = jsonStr.substring(1);
+                jsonStr = advance();
                 return new JsonToken(JsonToken.JsonType.OBJ_CLOSE);
             }
             case ',' -> {
-                jsonStr = jsonStr.substring(1);
+                jsonStr = advance();
                 return new JsonToken(JsonToken.JsonType.COMMA);
             }
             case ':' -> {
-                jsonStr = jsonStr.substring(1);
+                jsonStr = advance();
                 return new JsonToken(JsonToken.JsonType.COLON);
             }
             case '"' -> {
-                jsonStr = jsonStr.substring(1);
+                jsonStr = advance();
                 return parseString();
             }
             case '[' -> {
-                jsonStr = jsonStr.substring(1);
+                jsonStr = advance();
                 return new JsonToken(JsonToken.JsonType.ARR_OPEN);
             }
             case ']' -> {
-                jsonStr = jsonStr.substring(1);
+                jsonStr = advance();
                 return new JsonToken(JsonToken.JsonType.ARR_CLOSE);
             }
             default -> {
@@ -70,7 +108,7 @@ public class JsonLexer {
 
         while (!jsonStr.isEmpty() && boolLen-- > 0) {
             result.append(jsonStr.charAt(0));
-            jsonStr = jsonStr.substring(1);
+            jsonStr = advance();
         }
 
         String boolStr = result.toString();
@@ -87,7 +125,7 @@ public class JsonLexer {
 
         while (!jsonStr.isEmpty() && nullLen-- > 0) {
             result.append(jsonStr.charAt(0));
-            jsonStr = jsonStr.substring(1);
+            jsonStr = advance();
         }
 
         String nullStr = result.toString();
@@ -112,7 +150,16 @@ public class JsonLexer {
 
         while (!jsonStr.isEmpty()) {
             char currentChar = jsonStr.charAt(0);
-            jsonStr = jsonStr.substring(1);
+            jsonStr = advance();
+
+            if (currentChar == '\n') {
+                result.append("\\n");
+                continue;
+            }
+            if (currentChar == '\t') {
+                result.append("\\t");
+                continue;
+            }
 
             if (escaping) {
                 // Handle escape sequences
@@ -123,19 +170,19 @@ public class JsonLexer {
                         result.append(currentChar);
                         break;
                     case 'b':
-                        result.append('\b');
+                        result.append("\\b");
                         break;
                     case 'f':
-                        result.append('\f');
+                        result.append("\\f");
                         break;
                     case 'n':
-                        result.append('\n');
+                        result.append("\\n");
                         break;
                     case 'r':
-                        result.append('\r');
+                        result.append("\\r");
                         break;
                     case 't':
-                        result.append('\t');
+                        result.append("\\t");
                         break;
                     case 'u': // Unicode escape
                         if (jsonStr.length() >= 4) {
@@ -171,6 +218,7 @@ public class JsonLexer {
 
         while (!jsonStr.isEmpty()) {
             char ch = jsonStr.charAt(0);
+
             if (Character.isDigit(ch) || ch == '-' || ch == '+') {
                 result.append(ch);
             } else if (ch == '.' && !hasDot) {
@@ -183,7 +231,8 @@ public class JsonLexer {
             } else {
                 break;
             }
-            jsonStr = jsonStr.substring(1);
+
+            jsonStr = advance();
         }
 
         String numberStr = result.toString();
@@ -192,5 +241,19 @@ public class JsonLexer {
         } else {
             return new JsonToken(Integer.parseInt(numberStr));
         }
+    }
+
+    private String advance() {
+        cursor.incCol();
+        return jsonStr.substring(1);
+    }
+
+    private static int findFirstNonWhitespaceIndex(String str) {
+        for (int i = 0; i < str.length(); i++) {
+            if (!Character.isWhitespace(str.charAt(i))) {
+                return i;
+            }
+        }
+        return 0;
     }
 }
