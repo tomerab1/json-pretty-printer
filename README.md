@@ -45,5 +45,5 @@ To install Meow, follow these simple steps:
    ```
    and now you can run: 
    ```bash
-    > echo '{"=-..-=: "MEOW"}' | meow
+    > echo '{"=-..-=: "MEOW"}' | meow.sh
    ```
