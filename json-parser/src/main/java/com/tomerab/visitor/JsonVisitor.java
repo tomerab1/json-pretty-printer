@@ -5,13 +5,13 @@ import com.tomerab.ast.*;
 public interface JsonVisitor {
     public void visit(JsonMap map);
 
-    public void visit(JsonArray map);
+    public void visit(JsonArray array);
 
-    public void visit(JsonString map);
+    public void visit(JsonString string);
 
-    public void visit(JsonBoolean map);
+    public void visit(JsonBoolean bool);
 
-    public void visit(JsonNumber map);
+    public void visit(JsonNumber number);
 
-    public void visit(JsonNull map);
+    public void visit(JsonNull jsonNull);
 }
