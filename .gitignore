@@ -46,3 +46,7 @@ Desktop.ini
 
 # Build directories
 build/
+
+*.jar
+*.sh
+*.md
