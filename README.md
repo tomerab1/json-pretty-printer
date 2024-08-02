@@ -1,7 +1,6 @@
-<div style="display: flex; justify-content: center;">
-  <img src="logo/meow.png" alt="Meow Logo" style="margin: 0;">
-</div>
-
+<p align="center">
+  <img src="logo/meow.png" alt="Meow Logo" style="max-width: 100%; height: auto;">
+</p>
 
 # Meow: JSON Pretty Printer
 
