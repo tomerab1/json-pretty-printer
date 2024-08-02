@@ -1,5 +1,5 @@
 <div style="text-align: center;">
-  <img src="logo/meow.png" alt="Meow Logo" style="margin: 0;" width="450px" height="450px">
+  <img src="logo/meow.png" alt="Meow Logo" style="margin: 0;">
 </div>
 
 # Meow: JSON Pretty Printer
