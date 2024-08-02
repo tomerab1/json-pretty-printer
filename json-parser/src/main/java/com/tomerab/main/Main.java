@@ -1,6 +1,7 @@
 package com.tomerab.main;
 
 import com.tomerab.ast.JsonObject;
+import com.tomerab.exceptions.JsonSyntaxError;
 import com.tomerab.lexer.JsonLexer;
 import com.tomerab.parser.JsonParser;
 import com.tomerab.visitor.JsonPrettyPrintVisitor;
@@ -26,11 +27,13 @@ public class Main {
       JsonLexer jsonLexer = new JsonLexer(jsonInput);
       JsonParser jsonParser = new JsonParser(jsonLexer);
       JsonObject obj = jsonParser.parse();
-
       JsonVisitor visitor = new JsonPrettyPrintVisitor(4);
+
       obj.accept(visitor);
 
       System.out.println();
+    } catch (JsonSyntaxError e) {
+      System.out.println("JsonSyntaxError: " + e.getMessage());
     } catch (IOException e) {
       e.printStackTrace();
     }
