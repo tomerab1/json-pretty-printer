@@ -1,5 +1,6 @@
 package parser;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.LinkedHashMap;
@@ -15,6 +16,7 @@ import com.tomerab.ast.JsonNull;
 import com.tomerab.ast.JsonNumber;
 import com.tomerab.ast.JsonObject;
 import com.tomerab.ast.JsonString;
+import com.tomerab.exceptions.JsonSyntaxErrorException;
 import com.tomerab.lexer.JsonLexer;
 import com.tomerab.parser.JsonParser;
 
@@ -128,7 +130,7 @@ public class JsonParserTest {
     }
 
     @Test
-    public void test() {
+    public void testJsonSimpleObject() {
         String json = "{\"name\":\"John\", \"age\":30, \"car\":null}";
         JsonLexer lexer = new JsonLexer(json);
         JsonParser parser = new JsonParser(lexer);
@@ -140,6 +142,57 @@ public class JsonParserTest {
         expected.put("car", new JsonNull());
 
         assertTrue(testEquality(object, new JsonMap(expected)));
+    }
+
+    @Test
+    public void testMissingComma() {
+        String json = """
+                {
+                    "name": "John",
+                    "age": 30.0
+                    "car": null
+                } """;
+
+        JsonLexer lexer = new JsonLexer(json);
+        JsonParser parser = new JsonParser(lexer);
+        assertThrows(JsonSyntaxErrorException.class, parser::parse);
+    }
+
+    @Test
+    public void testMissingArrayClosingTag() {
+        String json = """
+                       [1, 2, 3
+                """;
+        JsonLexer lexer = new JsonLexer(json);
+        JsonParser parser = new JsonParser(lexer);
+        assertThrows(JsonSyntaxErrorException.class, parser::parse);
+    }
+
+    @Test
+    public void testMissingObjectClosingTag() {
+        String json = """
+                       {
+                        "name": "John",
+                        "age": 30.0,
+                        "car": null
+                """;
+        JsonLexer lexer = new JsonLexer(json);
+        JsonParser parser = new JsonParser(lexer);
+        assertThrows(JsonSyntaxErrorException.class, parser::parse);
+    }
+
+    @Test
+    public void testMissingColon() {
+        String json = """
+                       {
+                        "name" "John",
+                        "age": 30.0,
+                        "car": null
+                       }
+                """;
+        JsonLexer lexer = new JsonLexer(json);
+        JsonParser parser = new JsonParser(lexer);
+        assertThrows(JsonSyntaxErrorException.class, parser::parse);
     }
 
     private boolean testEquality(JsonObject obj1, JsonObject obj2) {

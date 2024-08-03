@@ -11,7 +11,7 @@ import com.tomerab.lexer.JsonToken.JsonType;
 
 class JsonLexerTest {
     @Test
-    public void test_empty_object() {
+    public void test_emptyObject() {
         String json = "{}";
 
         JsonLexer lexer = new JsonLexer(json);
@@ -28,7 +28,7 @@ class JsonLexerTest {
     }
 
     @Test
-    public void test_nested_objects() {
+    public void testNestedObjects() {
         String json = """
                   {
                       "name": "John",
@@ -73,7 +73,7 @@ class JsonLexerTest {
     }
 
     @Test
-    public void test_array() {
+    public void testArray() {
         String json = """
                   [1, 2, 3, 4, 5]
                 """;
@@ -118,7 +118,7 @@ class JsonLexerTest {
     }
 
     @Test
-    public void test_array_of_objects() {
+    public void test_arrayOfObjects() {
         String json = """
                   [
                       {"name": "Alice", "age": 25},
@@ -159,7 +159,7 @@ class JsonLexerTest {
     }
 
     @Test
-    public void test_special_characters_in_strings() {
+    public void testSpecialCharactersInStrings() {
         String json = """
                   {
                       "escapedQuotes": "He said, \\"Hello, World!\\"",
@@ -193,7 +193,7 @@ class JsonLexerTest {
     }
 
     @Test
-    public void test_various_data_types() {
+    public void test_variousDataTypes() {
         String json = """
                   {
                       "string": "Hello",
@@ -237,7 +237,7 @@ class JsonLexerTest {
     }
 
     @Test
-    public void test_invalid_boolean() {
+    public void testInvalidBoolean() {
         String json = "fals";
 
         JsonLexer lexer = new JsonLexer(json);
@@ -245,7 +245,7 @@ class JsonLexerTest {
     }
 
     @Test
-    public void test_invalid_null() {
+    public void testInvalidNull() {
         String json = "nul";
 
         JsonLexer lexer = new JsonLexer(json);
@@ -253,7 +253,7 @@ class JsonLexerTest {
     }
 
     @Test
-    public void test_unterminated_string() {
+    public void testUnterminatedString() {
         String json = "\"Hello";
 
         JsonLexer lexer = new JsonLexer(json);
@@ -261,7 +261,7 @@ class JsonLexerTest {
     }
 
     @Test
-    public void test_unexpected_character() {
+    public void testUnexpectedCharacter() {
         String json = "#unexpected";
 
         JsonLexer lexer = new JsonLexer(json);

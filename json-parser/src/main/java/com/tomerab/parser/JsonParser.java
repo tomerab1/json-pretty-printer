@@ -15,7 +15,7 @@ import com.tomerab.ast.JsonNull;
 import com.tomerab.ast.JsonNumber;
 import com.tomerab.ast.JsonObject;
 import com.tomerab.ast.JsonString;
-import com.tomerab.exceptions.JsonSyntaxError;
+import com.tomerab.exceptions.JsonSyntaxErrorException;
 import com.tomerab.lexer.JsonLexer;
 import com.tomerab.lexer.JsonToken;
 import com.tomerab.lexer.JsonToken.JsonType;
@@ -49,12 +49,14 @@ public class JsonParser {
      * Parses the JSON input and returns a JsonObject.
      * 
      * @return The parsed JsonObject.
-     * @throws JsonSyntaxError if there is an unexpected end of input or if the
-     *                         input does not start with an object or array.
+     * @throws JsonSyntaxErrorException if there is an unexpected end of input or if
+     *                                  the
+     *                                  input does not start with an object or
+     *                                  array.
      */
     public JsonObject parse() {
         if (!lexer.hasNext()) {
-            throw new JsonSyntaxError("Unexpected end of input");
+            throw new JsonSyntaxErrorException("Unexpected end of input");
         }
 
         JsonToken token = lexer.next();
@@ -65,7 +67,7 @@ public class JsonParser {
             case ARR_OPEN:
                 return parseArray(new LinkedList<>());
             default:
-                throw new JsonSyntaxError("Expected object or array at the beginning");
+                throw new JsonSyntaxErrorException("Expected object or array at the beginning");
         }
     }
 
@@ -74,7 +76,8 @@ public class JsonParser {
      *
      * @param map The map to store the parsed key-value pairs of the JSON object.
      * @return The parsed JSON object.
-     * @throws JsonSyntaxError If there is a syntax error in the JSON object.
+     * @throws JsonSyntaxErrorException If there is a syntax error in the JSON
+     *                                  object.
      */
     private JsonObject parseObject(Map<String, JsonObject> map) {
         boolean shouldExitLoop = false;
@@ -84,7 +87,7 @@ public class JsonParser {
             JsonToken token = lexer.next();
 
             if (!expectedTypes.isEmpty() && !expectedTypes.contains(token.getType())) {
-                throw new JsonSyntaxError(
+                throw new JsonSyntaxErrorException(
                         "Expected ',' or '}' after property value in object, at: " + lexer.getCursor());
             }
 
@@ -96,7 +99,8 @@ public class JsonParser {
                     String key = token.getString();
 
                     if (!isNextMatching(JsonType.COLON)) {
-                        throw new JsonSyntaxError("Expected ':' after property name, at: " + lexer.getCursor());
+                        throw new JsonSyntaxErrorException(
+                                "Expected ':' after property name, at: " + lexer.getCursor());
                     }
 
                     addExpectedTypesObject(expectedTypes);
@@ -108,12 +112,12 @@ public class JsonParser {
                     expectedTypes.clear();
                     break;
                 default:
-                    throw new JsonSyntaxError("Unexpected token in object, at: " + lexer.getCursor());
+                    throw new JsonSyntaxErrorException("Unexpected token in object, at: " + lexer.getCursor());
             }
         }
 
         if (!shouldExitLoop) {
-            throw new JsonSyntaxError("Unterminated object");
+            throw new JsonSyntaxErrorException("Unterminated object");
         }
 
         return new JsonMap(map);
@@ -123,12 +127,13 @@ public class JsonParser {
      * Parses a JSON value from the input stream.
      *
      * @return The parsed JSON value.
-     * @throws JsonSyntaxError If an unexpected end of input or token is encountered
-     *                         while parsing the value.
+     * @throws JsonSyntaxErrorException If an unexpected end of input or token is
+     *                                  encountered
+     *                                  while parsing the value.
      */
     private JsonObject parseValue() {
         if (!lexer.hasNext()) {
-            throw new JsonSyntaxError("Unexpected end of input while parsing value");
+            throw new JsonSyntaxErrorException("Unexpected end of input while parsing value");
         }
 
         JsonToken token = lexer.next();
@@ -147,13 +152,13 @@ public class JsonParser {
             case NULL:
                 return new JsonNull();
             default:
-                throw new JsonSyntaxError("Unexpected token while parsing value, at: " + lexer.getCursor());
+                throw new JsonSyntaxErrorException("Unexpected token while parsing value, at: " + lexer.getCursor());
         }
     }
 
     private boolean isNextMatching(JsonType type) {
         if (!lexer.hasNext()) {
-            throw new JsonSyntaxError("Unexpected end of input when expecting token: " + type);
+            throw new JsonSyntaxErrorException("Unexpected end of input when expecting token: " + type);
         }
 
         return lexer.next().getType() == type;
@@ -164,7 +169,8 @@ public class JsonParser {
      *
      * @param arr The list of JSON objects to parse.
      * @return The parsed JSON array.
-     * @throws JsonSyntaxError If there is a syntax error in the JSON array.
+     * @throws JsonSyntaxErrorException If there is a syntax error in the JSON
+     *                                  array.
      */
     private JsonObject parseArray(List<JsonObject> arr) {
         boolean shouldExitLoop = false;
@@ -174,7 +180,7 @@ public class JsonParser {
             JsonToken token = lexer.next();
 
             if (!expectedTypes.isEmpty() && !expectedTypes.contains(token.getType())) {
-                throw new JsonSyntaxError("Expected ',' or ']' after array element, at: " + lexer.getCursor());
+                throw new JsonSyntaxErrorException("Expected ',' or ']' after array element, at: " + lexer.getCursor());
             }
 
             switch (token.getType()) {
@@ -209,12 +215,12 @@ public class JsonParser {
                     expectedTypes.clear();
                     break;
                 default:
-                    throw new JsonSyntaxError("Unexpected token in array, at: " + lexer.getCursor());
+                    throw new JsonSyntaxErrorException("Unexpected token in array, at: " + lexer.getCursor());
             }
         }
 
         if (!shouldExitLoop) {
-            throw new JsonSyntaxError("Unterminated array");
+            throw new JsonSyntaxErrorException("Unterminated array");
         }
 
         return new JsonArray(arr);

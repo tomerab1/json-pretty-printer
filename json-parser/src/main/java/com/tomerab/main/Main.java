@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 import com.tomerab.ast.JsonObject;
-import com.tomerab.exceptions.JsonSyntaxError;
+import com.tomerab.exceptions.JsonSyntaxErrorException;
 import com.tomerab.lexer.JsonLexer;
 import com.tomerab.parser.JsonParser;
 import com.tomerab.visitor.JsonPrettyPrintVisitor;
@@ -33,10 +33,12 @@ public class Main {
       obj.accept(visitor);
 
       System.out.println();
-    } catch (JsonSyntaxError e) {
+    } catch (IllegalArgumentException e) {
+      System.out.println("IllegalArguemntException: " + e.getMessage());
+    } catch (JsonSyntaxErrorException e) {
       System.out.println("JsonSyntaxError: " + e.getMessage());
     } catch (IOException e) {
-      e.printStackTrace();
+      System.out.println("IOException: " + e.getMessage());
     }
   }
 }
