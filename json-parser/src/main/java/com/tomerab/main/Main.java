@@ -1,5 +1,8 @@
 package com.tomerab.main;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
 import com.tomerab.ast.JsonObject;
 import com.tomerab.exceptions.JsonSyntaxError;
 import com.tomerab.lexer.JsonLexer;
@@ -7,8 +10,6 @@ import com.tomerab.parser.JsonParser;
 import com.tomerab.visitor.JsonPrettyPrintVisitor;
 import com.tomerab.visitor.JsonVisitor;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.io.IOException;
 
 public class Main {

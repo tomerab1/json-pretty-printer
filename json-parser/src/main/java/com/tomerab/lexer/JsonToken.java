@@ -1,5 +1,8 @@
 package com.tomerab.lexer;
 
+/**
+ * Represents a token in a JSON document.
+ */
 public class JsonToken {
     private boolean boolVal;
     private String stringVal;

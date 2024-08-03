@@ -11,6 +11,33 @@ import com.tomerab.ast.JsonNumber;
 import com.tomerab.ast.JsonObject;
 import com.tomerab.ast.JsonString;
 
+/**
+ * The JsonPrettyPrintVisitor class is responsible for visiting different types
+ * of JSON objects and printing them in a pretty format.
+ * It implements the JsonVisitor interface.
+ * 
+ * The class provides methods to visit JSON maps, arrays, strings, booleans,
+ * numbers, and null values.
+ * When visiting a JSON map, the class prints the map in a formatted way, with
+ * indentation and color coding.
+ * When visiting a JSON array, the class prints the array in a formatted way,
+ * with indentation.
+ * When visiting a JSON string, the class prints the string in green color.
+ * When visiting a JSON boolean, the class prints the boolean value in yellow
+ * color.
+ * When visiting a JSON number, the class prints the number in magenta color.
+ * When visiting a JSON null value, the class prints "null" in yellow color.
+ * 
+ * The class also provides a constructor that accepts a spacing level parameter,
+ * which determines the indentation level for the pretty printing.
+ * 
+ * 
+ * <pre>
+ * JsonPrettyPrintVisitor visitor = new JsonPrettyPrintVisitor(2);
+ * JsonObject json = ...; // create or obtain a JSON object
+ * json.accept(visitor); // print the JSON object in a pretty format
+ * </pre>
+ */
 public class JsonPrettyPrintVisitor implements JsonVisitor {
     private static int indentLevel = 0;
     private static String INDENT = " ";

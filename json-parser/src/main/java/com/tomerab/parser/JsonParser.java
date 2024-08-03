@@ -20,6 +20,24 @@ import com.tomerab.lexer.JsonLexer;
 import com.tomerab.lexer.JsonToken;
 import com.tomerab.lexer.JsonToken.JsonType;
 
+/**
+ * The JsonParser class is responsible for parsing JSON strings and converting
+ * them into JsonObject representations.
+ * It uses a JsonLexer to tokenize the input string and then recursively parses
+ * the tokens to build the JsonObject.
+ * The parser supports parsing JSON objects and arrays, as well as string,
+ * number, boolean, and null values.
+ * 
+ * Example usage:
+ * 
+ * <pre>
+ * JsonLexer lexer = new JsonLexer(jsonString);
+ * JsonParser parser = new JsonParser(lexer);
+ * JsonObject jsonObject = parser.parse();
+ * </pre>
+ * 
+ * @param lexer The JsonLexer used to tokenize the input JSON string.
+ */
 public class JsonParser {
     private JsonLexer lexer;
 
@@ -27,6 +45,13 @@ public class JsonParser {
         this.lexer = lexer;
     }
 
+    /**
+     * Parses the JSON input and returns a JsonObject.
+     * 
+     * @return The parsed JsonObject.
+     * @throws JsonSyntaxError if there is an unexpected end of input or if the
+     *                         input does not start with an object or array.
+     */
     public JsonObject parse() {
         if (!lexer.hasNext()) {
             throw new JsonSyntaxError("Unexpected end of input");
@@ -44,6 +69,13 @@ public class JsonParser {
         }
     }
 
+    /**
+     * Parses a JSON object from the input stream.
+     *
+     * @param map The map to store the parsed key-value pairs of the JSON object.
+     * @return The parsed JSON object.
+     * @throws JsonSyntaxError If there is a syntax error in the JSON object.
+     */
     private JsonObject parseObject(Map<String, JsonObject> map) {
         boolean shouldExitLoop = false;
         Set<JsonType> expectedTypes = new HashSet<>();
@@ -87,6 +119,13 @@ public class JsonParser {
         return new JsonMap(map);
     }
 
+    /**
+     * Parses a JSON value from the input stream.
+     *
+     * @return The parsed JSON value.
+     * @throws JsonSyntaxError If an unexpected end of input or token is encountered
+     *                         while parsing the value.
+     */
     private JsonObject parseValue() {
         if (!lexer.hasNext()) {
             throw new JsonSyntaxError("Unexpected end of input while parsing value");
@@ -120,6 +159,13 @@ public class JsonParser {
         return lexer.next().getType() == type;
     }
 
+    /**
+     * Parses an array of JSON objects.
+     *
+     * @param arr The list of JSON objects to parse.
+     * @return The parsed JSON array.
+     * @throws JsonSyntaxError If there is a syntax error in the JSON array.
+     */
     private JsonObject parseArray(List<JsonObject> arr) {
         boolean shouldExitLoop = false;
         Set<JsonType> expectedTypes = new HashSet<>();

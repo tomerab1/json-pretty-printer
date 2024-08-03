@@ -1,9 +1,16 @@
 package com.tomerab.lexer;
 
+/**
+ * The JsonLexer class is responsible for lexing a JSON string into tokens.
+ * It provides methods to iterate over the tokens in the JSON string.
+ */
 public class JsonLexer {
     private String jsonStr;
     private Cursor cursor;
 
+    /**
+     * Represents a cursor used for tracking the position in a text file.
+     */
     public static class Cursor {
         private int col = 1, row = 1;
 
@@ -42,6 +49,13 @@ public class JsonLexer {
         return cursor;
     }
 
+    /**
+     * Advances the cursor to the next token and returns the corresponding
+     * JsonToken.
+     * 
+     * @return The next JsonToken in the JSON string.
+     * @throws IllegalArgumentException if an unexpected character is encountered.
+     */
     public JsonToken next() {
         cursor.incCol(findFirstNonWhitespaceIndex(jsonStr));
         if (jsonStr.charAt(0) == '\n') {
