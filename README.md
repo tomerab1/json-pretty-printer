@@ -34,7 +34,7 @@ To install Meow, follow these simple steps:
 
 1. Download the attached 'jar' file and run:
    ```bash
-   > echo '{"=-..-=: "MEOW"}' | java -jar meow.jar
+   > echo '{"=-..-=": "MEOW"}' | java -jar meow.jar
    ```
 
 2. You can also create a bash/batch script to run it in a more simple way.
@@ -45,5 +45,5 @@ To install Meow, follow these simple steps:
    ```
    and now you can run: 
    ```bash
-    > echo '{"=-..-=: "MEOW"}' | meow.sh
+    > echo '{"=-..-=": "MEOW"}' | ./meow.sh
    ```
