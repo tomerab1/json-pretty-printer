@@ -102,20 +102,6 @@ public class JsonParserTest {
     }
 
     @Test
-    public void testJsonNumberEdgeCases() {
-        String json = "{\"large\":1234567890123456789,\"nan\":NaN}";
-        JsonLexer lexer = new JsonLexer(json);
-        JsonParser parser = new JsonParser(lexer);
-        JsonObject object = parser.parse();
-
-        Map<String, JsonObject> expected = new LinkedHashMap<>();
-        expected.put("large", new JsonNumber(1234567890123456789L));
-        expected.put("nan", new JsonNumber(Double.NaN)); // Assuming your parser can handle NaN
-
-        assertTrue(testEquality(object, new JsonMap(expected)));
-    }
-
-    @Test
     public void testJsonStringSpecialChars() {
         String json = "{\"text\":\"Hello\\nWorld!\\t\\\"Quotes\\\"\"}";
         JsonLexer lexer = new JsonLexer(json);

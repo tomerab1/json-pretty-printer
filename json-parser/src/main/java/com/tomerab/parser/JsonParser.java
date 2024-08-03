@@ -179,9 +179,11 @@ public class JsonParser {
 
             switch (token.getType()) {
                 case OBJ_OPEN:
+                    addExpectedTypesArray(expectedTypes);
                     arr.add(parseObject(new LinkedHashMap<>()));
                     break;
                 case ARR_OPEN:
+                    addExpectedTypesArray(expectedTypes);
                     arr.add(parseArray(new LinkedList<>()));
                     break;
                 case ARR_CLOSE:
