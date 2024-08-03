@@ -1,10 +1,11 @@
+
 <p align="center">
-  <img src="logo/meow.png" alt="Meow Logo" style="max-width: 100%; height: auto;" width="300px" height="300px">
+  <img src="logo/meow.png" alt="Meow Logo" width="300px" height="300px">
 </p>
 
-# Meow: JSON Pretty Printer
+<h1 align="center">Meow: JSON Pretty Printer</h1>
 
-A simple CLI tool to pretty print your JSON.
+<p align="center">A simple CLI tool to pretty print your JSON.</p>
 
 <div style="text-align: center;">
   <img src="img/pretty.png" alt="Pretty JSON" style="max-width: 100%; height: auto;">
@@ -17,10 +18,10 @@ A simple CLI tool to pretty print your JSON.
 
 - **Color-Coded Output**: To further enhance readability, Meow highlights different JSON data types with distinct colors:
 
-  - **Strings**: ![#00FF00](https://via.placeholder.com/15/00FF00/000000?text=+) Green
-  - **Booleans**: ![#FFFF00](https://via.placeholder.com/15/FFFF00/000000?text=+) Yellow
-  - **Numbers**: ![#FF00FF](https://via.placeholder.com/15/FF00FF/000000?text=+) Magenta
-  - **Map Keys**: ![#00FFFF](https://via.placeholder.com/15/00FFFF/000000?text=+) Cyan
+  - **Strings**: <span style="color:#00FF00">Green</span>
+  - **Booleans**: <span style="color:#FFFF00">Yellow</span>
+  - **Numbers**: <span style="color:#FF00FF">Magenta</span>
+  - **Map Keys**: <span style="color:#00FFFF">Cyan</span>
 
 - **CLI Integration**: Meow seamlessly integrates with the command line, supporting input redirection and pipes. This allows users to easily format JSON data from files, APIs, or other command-line tools.
 
@@ -28,22 +29,67 @@ A simple CLI tool to pretty print your JSON.
 
 - **Java 17 or higher**
 
-### Installation
+## Installation
 
-To install Meow, follow these simple steps:
+### Using the JAR File
 
-1. Download the attached 'jar' file and run:
+1. **Download the JAR file**
+
+   Download the latest `meow.jar` from the [releases page](https://github.com/your-repo/releases).
+
+2. **Run the tool**
+
+   To pretty print JSON, run the following command:
+
    ```bash
-   > echo '{"=-..-=": "MEOW"}' | java -jar meow.jar
+   echo '{"=-..-=": "MEOW"}' | java -jar meow.jar
    ```
 
-2. You can also create a bash/batch script to run it in a more simple way.
-   Create a meow.sh file:
+3. **Create a Script for Convenience**
+
+   You can create a shell script to make running the tool easier. Create a `meow.sh` file with the following content:
+
    ```bash
-      #!/bin/bash
-      java -jar meow.jar "@$" 
+   #!/bin/bash
+   java -jar meow.jar "$@"
    ```
-   and now you can run: 
+
+   Make the script executable:
+
    ```bash
-    > echo '{"=-..-=": "MEOW"}' | ./meow.sh
+   chmod +x meow.sh
    ```
+
+   Now, you can use the script to pretty print JSON:
+
+   ```bash
+   echo '{"=-..-=": "MEOW"}' | ./meow.sh
+   ```
+
+## Usage
+
+Meow can be used in various ways:
+
+- **From a file**:
+
+  ```bash
+  java -jar meow.jar < file.json
+  ```
+
+- **From a URL**:
+
+  ```bash
+  curl -s https://api.example.com/data | java -jar meow.jar
+  ```
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Contributing
+
+Feel free to open issues or submit pull requests for any improvements or features you would like to see. Contributions are welcome!
+
+<p align="center">
+  <img src="logo/meow.png" alt="Meow Logo" width="100px" height="100px">
+</p>
