@@ -34,6 +34,9 @@
                             <mainClass>com.tomerab.main.Main</mainClass>
                         </manifest>
                     </archive>
+                    <filters>
+                        <filter>secrets.properties</filter>
+                    </filters>
                 </configuration>
             </plugin>
         </plugins>
