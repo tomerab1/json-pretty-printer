@@ -118,7 +118,7 @@ public class JsonParser {
         }
 
         if (!shouldExitLoop) {
-            throw new JsonSyntaxErrorException("Unterminated object");
+            throw new JsonSyntaxErrorException("Unterminated object, at: " + lexer.getCursor());
         }
 
         return new JsonMap(map);
@@ -227,7 +227,7 @@ public class JsonParser {
         }
 
         if (!shouldExitLoop) {
-            throw new JsonSyntaxErrorException("Unterminated array");
+            throw new JsonSyntaxErrorException("Unterminated array, at: " + lexer.getCursor());
         }
 
         return new JsonArray(arr);

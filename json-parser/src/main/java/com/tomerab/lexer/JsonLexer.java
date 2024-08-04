@@ -271,11 +271,16 @@ public class JsonLexer {
     }
 
     private static int findFirstNonWhitespaceIndex(String str) {
+        int countTabs = 0;
         for (int i = 0; i < str.length(); i++) {
+            if (str.charAt(i) == '\t') {
+                countTabs++;
+            }
             if (!Character.isWhitespace(str.charAt(i))) {
-                return i;
+                return i + countTabs * 4;
             }
         }
+
         return 0;
     }
 }

@@ -1,6 +1,6 @@
 
 <p align="center">
-  <img src="logo/meow.png" alt="Meow Logo" width="300px" height="300px">
+  <img src="assets/logo/meow.png" alt="Meow Logo" width="300px" height="300px">
 </p>
 
 <h1 align="center">Meow: JSON Pretty Printer</h1>
@@ -9,9 +9,9 @@
 
 <div style="text-align: center;">
   <p style="text-align: left;"> Before: (ノಠ益ಠ)ノ彡┻━┻</p>
-  <img src="img/pretty.png" alt="Pretty JSON" style="max-width: 100%; height: auto;">
+  <img src="assets/img/pretty.png" alt="Pretty JSON" style="max-width: 100%; height: auto;">
   <p style="text-align: left;"> After: 	(= ФェФ=)</p>
-  <img src="img/not-pretty.png" alt="Not Pretty JSON" style="max-width: 100%; height: auto; margin-bottom: 10px;">
+  <img src="assets/img/not-pretty.png" alt="Not Pretty JSON" style="max-width: 100%; height: auto; margin-bottom: 10px;">
 </div>
 
 ## Features
