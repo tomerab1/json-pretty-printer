@@ -11,7 +11,9 @@ public interface JsonVisitor {
 
     public void visit(JsonBoolean bool);
 
-    public void visit(JsonNumber number);
+    public void visit(JsonDecimal decimal);
+
+    public void visit(JsonInteger integer);
 
     public void visit(JsonNull jsonNull);
 }

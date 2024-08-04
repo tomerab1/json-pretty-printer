@@ -3,6 +3,8 @@ package parser;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,9 +13,10 @@ import org.junit.jupiter.api.Test;
 
 import com.tomerab.ast.JsonArray;
 import com.tomerab.ast.JsonBoolean;
+import com.tomerab.ast.JsonDecimal;
+import com.tomerab.ast.JsonInteger;
 import com.tomerab.ast.JsonMap;
 import com.tomerab.ast.JsonNull;
-import com.tomerab.ast.JsonNumber;
 import com.tomerab.ast.JsonObject;
 import com.tomerab.ast.JsonString;
 import com.tomerab.exceptions.JsonSyntaxErrorException;
@@ -32,7 +35,7 @@ public class JsonParserTest {
 
         Map<String, JsonObject> expected = new LinkedHashMap<>();
         expected.put("name", new JsonString("John"));
-        expected.put("age", new JsonNumber(30));
+        expected.put("age", new JsonInteger(new BigInteger("30")));
         expected.put("car", new JsonNull());
 
         assertTrue(testEquality(object, new JsonMap(expected)));
@@ -67,7 +70,7 @@ public class JsonParserTest {
 
         Map<String, JsonObject> personMap = new LinkedHashMap<>();
         personMap.put("name", new JsonString("John"));
-        personMap.put("age", new JsonNumber(30));
+        personMap.put("age", new JsonInteger(new BigInteger("30")));
 
         Map<String, JsonObject> expected = new LinkedHashMap<>();
         expected.put("person", new JsonMap(personMap));
@@ -83,8 +86,10 @@ public class JsonParserTest {
         JsonParser parser = new JsonParser(lexer);
         JsonObject object = parser.parse();
 
-        List<JsonObject> innerList1 = List.of(new JsonNumber(1), new JsonNumber(2));
-        List<JsonObject> innerList2 = List.of(new JsonNumber(3), new JsonNumber(4));
+        List<JsonObject> innerList1 = List.of(new JsonInteger(new BigInteger("1")),
+                new JsonInteger(new BigInteger("2")));
+        List<JsonObject> innerList2 = List.of(new JsonInteger(new BigInteger("3")),
+                new JsonInteger(new BigInteger("4")));
         List<JsonObject> outerList = List.of(new JsonArray(innerList1), new JsonArray(innerList2));
 
         assertTrue(testEquality(object, new JsonArray(outerList)));
@@ -138,7 +143,7 @@ public class JsonParserTest {
 
         Map<String, JsonObject> expected = new LinkedHashMap<>();
         expected.put("name", new JsonString("John"));
-        expected.put("age", new JsonNumber(30));
+        expected.put("age", new JsonInteger(new BigInteger("30")));
         expected.put("car", new JsonNull());
 
         assertTrue(testEquality(object, new JsonMap(expected)));
@@ -250,10 +255,15 @@ public class JsonParserTest {
             boolean b2 = ((JsonBoolean) obj2).getValue();
             return b1 == b2;
         }
-        if (obj1 instanceof JsonNumber) {
-            double d1 = ((JsonNumber) obj1).getValue();
-            double d2 = ((JsonNumber) obj2).getValue();
-            return Double.compare(d1, d2) == 0;
+        if (obj1 instanceof JsonInteger) {
+            BigInteger d1 = ((JsonInteger) obj1).getValue();
+            BigInteger d2 = ((JsonInteger) obj2).getValue();
+            return d1.equals(d2);
+        }
+        if (obj1 instanceof JsonDecimal) {
+            BigDecimal d1 = ((JsonDecimal) obj1).getValue();
+            BigDecimal d2 = ((JsonDecimal) obj2).getValue();
+            return d1.equals(d2);
         }
 
         return true;

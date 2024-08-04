@@ -1,5 +1,8 @@
 package com.tomerab.lexer;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
 /**
  * The JsonLexer class is responsible for lexing a JSON string into tokens.
  * It provides methods to iterate over the tokens in the JSON string.
@@ -250,10 +253,15 @@ public class JsonLexer {
         }
 
         String numberStr = result.toString();
-        if (numberStr.contains(".") || numberStr.contains("e") || numberStr.contains("E")) {
-            return new JsonToken(Double.parseDouble(numberStr));
-        } else {
-            return new JsonToken(Integer.parseInt(numberStr));
+        try {
+            if (numberStr.contains(".") || numberStr.contains("e") || numberStr.contains("E")) {
+                return new JsonToken(new BigDecimal(numberStr));
+            } else {
+                return new JsonToken(new BigInteger(numberStr));
+            }
+        } catch (NumberFormatException e) {
+            // Handle any unexpected parsing errors here
+            throw new RuntimeException("Invalid number format: " + numberStr, e);
         }
     }
 

@@ -10,6 +10,8 @@ import java.util.Set;
 
 import com.tomerab.ast.JsonArray;
 import com.tomerab.ast.JsonBoolean;
+import com.tomerab.ast.JsonDecimal;
+import com.tomerab.ast.JsonInteger;
 import com.tomerab.ast.JsonMap;
 import com.tomerab.ast.JsonNull;
 import com.tomerab.ast.JsonNumber;
@@ -145,8 +147,10 @@ public class JsonParser {
                 return parseArray(new ArrayList<>());
             case STRING:
                 return new JsonString(token.getString());
-            case NUMBER:
-                return new JsonNumber(token.getNum());
+            case NUMBER_DECIMAL:
+                return new JsonDecimal(token.getDecimal());
+            case NUMBER_INTEGER:
+                return new JsonInteger(token.getInteger());
             case BOOLEAN:
                 return new JsonBoolean(token.getBool());
             case NULL:
@@ -199,9 +203,13 @@ public class JsonParser {
                     addExpectedTypesArray(expectedTypes);
                     arr.add(new JsonString(token.getString()));
                     break;
-                case NUMBER:
+                case NUMBER_DECIMAL:
                     addExpectedTypesArray(expectedTypes);
-                    arr.add(new JsonNumber(token.getNum()));
+                    arr.add(new JsonDecimal(token.getDecimal()));
+                    break;
+                case NUMBER_INTEGER:
+                    addExpectedTypesArray(expectedTypes);
+                    arr.add(new JsonInteger(token.getInteger()));
                     break;
                 case BOOLEAN:
                     addExpectedTypesArray(expectedTypes);

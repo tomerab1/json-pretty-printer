@@ -3,6 +3,8 @@ package lexer;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.math.BigInteger;
+
 import org.junit.jupiter.api.Test;
 
 import com.tomerab.lexer.JsonLexer;
@@ -49,7 +51,7 @@ class JsonLexerTest {
                 new JsonToken(JsonType.COMMA),
                 new JsonToken("age"),
                 new JsonToken(JsonType.COLON),
-                new JsonToken(30),
+                new JsonToken(new BigInteger("30")),
                 new JsonToken(JsonType.COMMA),
                 new JsonToken("address"),
                 new JsonToken(JsonType.COLON),
@@ -81,15 +83,15 @@ class JsonLexerTest {
         JsonLexer lexer = new JsonLexer(json);
         JsonToken[] expected = {
                 new JsonToken(JsonType.ARR_OPEN),
-                new JsonToken(1),
+                new JsonToken(new BigInteger("1")),
                 new JsonToken(JsonType.COMMA),
-                new JsonToken(2),
+                new JsonToken(new BigInteger("2")),
                 new JsonToken(JsonType.COMMA),
-                new JsonToken(3),
+                new JsonToken(new BigInteger("3")),
                 new JsonToken(JsonType.COMMA),
-                new JsonToken(4),
+                new JsonToken(new BigInteger("4")),
                 new JsonToken(JsonType.COMMA),
-                new JsonToken(5),
+                new JsonToken(new BigInteger("5")),
                 new JsonToken(JsonType.ARR_CLOSE),
         };
 
@@ -108,8 +110,10 @@ class JsonLexerTest {
         switch (t1.getType()) {
             case BOOLEAN:
                 return t1.getBool() == t2.getBool();
-            case NUMBER:
-                return t1.getNum() == t2.getNum();
+            case NUMBER_DECIMAL:
+                return t1.getDecimal().equals(t2.getDecimal());
+            case NUMBER_INTEGER:
+                return t1.getInteger().equals(t2.getInteger());
             case STRING:
                 return t1.getString().equals(t2.getString());
             default:
@@ -136,7 +140,7 @@ class JsonLexerTest {
                 new JsonToken(JsonType.COMMA),
                 new JsonToken("age"),
                 new JsonToken(JsonType.COLON),
-                new JsonToken(25),
+                new JsonToken(new BigInteger("25")),
                 new JsonToken(JsonType.OBJ_CLOSE),
                 new JsonToken(JsonType.COMMA),
                 new JsonToken(JsonType.OBJ_OPEN),
@@ -146,7 +150,7 @@ class JsonLexerTest {
                 new JsonToken(JsonType.COMMA),
                 new JsonToken("age"),
                 new JsonToken(JsonType.COLON),
-                new JsonToken(30),
+                new JsonToken(new BigInteger("30")),
                 new JsonToken(JsonType.OBJ_CLOSE),
                 new JsonToken(JsonType.ARR_CLOSE),
         };
@@ -213,7 +217,7 @@ class JsonLexerTest {
                 new JsonToken(JsonType.COMMA),
                 new JsonToken("number"),
                 new JsonToken(JsonType.COLON),
-                new JsonToken(1234),
+                new JsonToken(new BigInteger("1234")),
                 new JsonToken(JsonType.COMMA),
                 new JsonToken("booleanTrue"),
                 new JsonToken(JsonType.COLON),

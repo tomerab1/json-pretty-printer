@@ -1,13 +1,16 @@
 package com.tomerab.visitor;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 
 import com.tomerab.ast.JsonArray;
 import com.tomerab.ast.JsonBoolean;
+import com.tomerab.ast.JsonDecimal;
+import com.tomerab.ast.JsonInteger;
 import com.tomerab.ast.JsonMap;
 import com.tomerab.ast.JsonNull;
-import com.tomerab.ast.JsonNumber;
 import com.tomerab.ast.JsonObject;
 import com.tomerab.ast.JsonString;
 
@@ -109,9 +112,15 @@ public class JsonPrettyPrintVisitor implements JsonVisitor {
     }
 
     @Override
-    public void visit(JsonNumber number) {
-        double num = number.getValue();
-        System.out.print(MAGENTA + num + RESET);
+    public void visit(JsonDecimal decimal) {
+        BigDecimal decimalVal = decimal.getValue();
+        System.out.print(MAGENTA + decimalVal + RESET);
+    }
+
+    @Override
+    public void visit(JsonInteger integer) {
+        BigInteger integerVal = integer.getValue();
+        System.out.print(MAGENTA + integerVal + RESET);
     }
 
     @Override

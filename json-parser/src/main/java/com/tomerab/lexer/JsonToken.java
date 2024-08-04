@@ -1,12 +1,16 @@
 package com.tomerab.lexer;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
 /**
  * Represents a token in a JSON document.
  */
 public class JsonToken {
     private boolean boolVal;
     private String stringVal;
-    private double numVal;
+    private BigDecimal decimal;
+    private BigInteger integer;
     private final JsonType type;
 
     public enum JsonType {
@@ -17,7 +21,8 @@ public class JsonToken {
         COMMA,
         COLON,
         STRING,
-        NUMBER,
+        NUMBER_DECIMAL,
+        NUMBER_INTEGER,
         BOOLEAN,
         NULL
     }
@@ -36,9 +41,14 @@ public class JsonToken {
         type = JsonType.STRING;
     }
 
-    public JsonToken(double numVal) {
-        this.numVal = numVal;
-        type = JsonType.NUMBER;
+    public JsonToken(BigDecimal decimal) {
+        this.decimal = decimal;
+        type = JsonType.NUMBER_DECIMAL;
+    }
+
+    public JsonToken(BigInteger integer) {
+        this.integer = integer;
+        type = JsonType.NUMBER_INTEGER;
     }
 
     public JsonType getType() {
@@ -53,8 +63,12 @@ public class JsonToken {
         return boolVal;
     }
 
-    public double getNum() {
-        return numVal;
+    public BigDecimal getDecimal() {
+        return decimal;
+    }
+
+    public BigInteger getInteger() {
+        return integer;
     }
 
     @Override
@@ -65,8 +79,11 @@ public class JsonToken {
             case STRING -> {
                 return res + ": " + stringVal;
             }
-            case NUMBER -> {
-                return res + ": " + numVal;
+            case NUMBER_DECIMAL -> {
+                return res + ": " + decimal;
+            }
+            case NUMBER_INTEGER -> {
+                return res + ": " + integer;
             }
             case BOOLEAN -> {
                 return res + ": " + boolVal;
