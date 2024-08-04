@@ -15,10 +15,10 @@ import java.io.IOException;
 public class Main {
   // Todo(tomer): Add more tests, also refine the cli interface, maybe add a
   // Todo(tomer): visitor for outputing the
-  // Todo(timer): result to a file... Also print usage etc.
-  // Todo(timer): Add support for Nan.
-  // Todo(timer): Add more descriptive error messages for unterminated strings
-  // Todo(timer): etc.
+  // Todo(tomer): result to a file... Also print usage etc.
+  // Todo(tomer): Add support for Nan.
+  // Todo(tomer): Add more descriptive error messages for unterminated strings
+  // Todo(tomer): etc.
 
   public static void main(String[] args) {
     try {
