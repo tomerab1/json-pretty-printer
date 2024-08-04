@@ -14,7 +14,6 @@ import com.tomerab.ast.JsonDecimal;
 import com.tomerab.ast.JsonInteger;
 import com.tomerab.ast.JsonMap;
 import com.tomerab.ast.JsonNull;
-import com.tomerab.ast.JsonNumber;
 import com.tomerab.ast.JsonObject;
 import com.tomerab.ast.JsonString;
 import com.tomerab.exceptions.JsonSyntaxErrorException;

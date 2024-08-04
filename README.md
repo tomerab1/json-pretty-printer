@@ -8,7 +8,9 @@
 <p align="center">A simple CLI tool to pretty print your JSON.</p>
 
 <div style="text-align: center;">
+  <p style="text-align: left;"> Before: (ノಠ益ಠ)ノ彡┻━┻</p>
   <img src="img/pretty.png" alt="Pretty JSON" style="max-width: 100%; height: auto;">
+  <p style="text-align: left;"> After: 	(= ФェФ=)</p>
   <img src="img/not-pretty.png" alt="Not Pretty JSON" style="max-width: 100%; height: auto; margin-bottom: 10px;">
 </div>
 
