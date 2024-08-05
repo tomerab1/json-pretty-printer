@@ -93,5 +93,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 Feel free to open issues or submit pull requests for any improvements or features you would like to see. Contributions are welcome!
 
 <p align="center">
-  <img src="logo/meow.png" alt="Meow Logo" width="100px" height="100px">
+  <img src="assets/logo/meow.png" alt="Meow Logo" width="100px" height="100px">
 </p>
